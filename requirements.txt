@@ -1,0 +1,31 @@
+# EffiLLM/requirements.txt
+
+# Core dependencies
+torch>=1.13.0
+transformers>=4.25.0
+accelerate>=0.16.0
+numpy>=1.23.0
+psutil>=5.9.0
+tqdm>=4.64.0
+click>=8.1.0
+
+# Model-related dependencies
+sentencepiece>=0.1.97
+protobuf>=3.20.0
+safetensors>=0.3.1
+
+# Quantization support
+bitsandbytes>=0.39.0
+
+# GPU monitoring
+pynvml>=11.4.1
+
+# Data handling and visualization
+pandas>=1.5.0
+matplotlib>=3.6.0
+seaborn>=0.12.0
+
+# Optional dependencies for advanced features
+datasets>=2.8.0         # For loading benchmark datasets
+ipywidgets>=8.0.0       # For interactive visualizations in notebooks
+huggingface_hub>=0.13.0 # For model downloading
