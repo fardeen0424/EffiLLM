@@ -313,6 +313,36 @@ def recommend(model_id, device):
             click.echo("  Your system should handle this model in FP16 precision.")
             click.echo("  For comparison, you can also test with quantization:")
             click.echo(f"  effillm benchmark {model_id} --quantization int8 --device {device}")
+            
+@main.command()
+@click.argument('result_files', nargs=-1, required=True, type=click.Path(exists=True))
+@click.option('--output-dir', default='reports', help='Directory to save report')
+@click.option('--title', default='EffiLLM Benchmark Report', help='Report title')
+@click.option('--filename', default=None, help='Output filename (default: auto-generated)')
+def report(result_files, output_dir, title, filename):
+    """Generate comprehensive HTML benchmark report from result files."""
+    from effillm.reporting.report_generator import BenchmarkReportGenerator
+    
+    # Ensure template exists
+    template_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 
+                                "reporting", "report_template.html")
+    template_dir = os.path.dirname(template_path)
+    os.makedirs(template_dir, exist_ok=True)
+    
+    if not os.path.exists(template_path):
+        from effillm.reporting.report_generator import save_html_template
+        save_html_template(template_path)
+    
+    logger.info(f"Generating report from {len(result_files)} result files...")
+    
+    # Initialize report generator
+    generator = BenchmarkReportGenerator(result_files, output_dir=output_dir)
+    
+    # Generate report
+    report_path = generator.generate_html_report(title=title, filename=filename)
+    
+    logger.info(f"Report generated at: {report_path}")
+    click.echo(f"Report generated at: {report_path}")
 
 if __name__ == "__main__":
     main()
