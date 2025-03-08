@@ -1044,6 +1044,451 @@ class BenchmarkReportGenerator:
         
         return "<p>" + "</p><p>".join(summary_lines) + "</p>"
     
+    def save_html_template(template_path):
+        """Save the HTML template for reports."""
+        os.makedirs(os.path.dirname(template_path), exist_ok=True)
+    
+        with open(template_path, 'w') as f:
+            f.write('''<!DOCTYPE html>
+<html lang="">
+<head>
+<title></title>
+<meta content="summary_large_image" name="twitter:card" />
+<meta content="website" property="og:type" />
+<meta content="" property="og:description" />
+<meta content="https://fyi17hw2vf.preview-beefreedesign.com/ovXH" property="og:url" />
+<meta content="https://pro-bee-beepro-thumbnail.getbee.io/messages/1358215/1344654/2365586/12468090_large.jpg" property="og:image" />
+<meta content="" property="og:title" />
+<meta content="" name="description" />
+<meta charset="utf-8" />
+<meta content="width=device-width" name="viewport" />
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@100;200;300;400;500;600;700;800;900" rel="stylesheet" type="text/css" />
+<style>
+.bee-row,
+.bee-row-content {
+position: relative
+}
+body {
+background-color: #FFFFFF;
+color: #000000;
+font-family: Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif
+}
+a {
+color: #0068A5
+}
+* {
+box-sizing: border-box
+}
+body,
+h1,
+h2,
+h3,
+p {
+margin: 0
+}
+.bee-row-content {
+max-width: 1010px;
+margin: 0 auto;
+display: flex
+}
+.bee-row-content .bee-col-w3 {
+flex-basis: 25%
+}
+.bee-row-content .bee-col-w6 {
+flex-basis: 50%
+}
+.bee-row-content .bee-col-w9 {
+flex-basis: 75%
+}
+.bee-row-content .bee-col-w12 {
+flex-basis: 100%
+}
+.bee-icon .bee-icon-label-right a {
+text-decoration: none
+}
+.bee-image {
+overflow: auto
+}
+.bee-row-3 .bee-col-1 .bee-block-2,
+.bee-row-4 .bee-col-1 .bee-block-2,
+.bee-row-5 .bee-col-1 .bee-block-2 {
+width: 100%
+}
+.bee-icon {
+display: inline-block;
+vertical-align: middle
+}
+.bee-icon .bee-content {
+display: flex;
+align-items: center
+}
+.bee-image img {
+display: block;
+width: 100%
+}
+.bee-paragraph {
+overflow-wrap: anywhere
+}
+.bee-table table {
+border-collapse: collapse;
+width: 100%
+}
+.bee-table table tbody,
+.bee-table table thead {
+vertical-align: top
+}
+.bee-table table td,
+.bee-table table th {
+padding: 10px;
+word-break: break-word
+}
+@media (max-width:768px) {
+.bee-row-content:not(.no_stack) {
+display: block
+}
+}
+.bee-row-1,
+.bee-row-6 {
+background-color: #f2f2f2;
+background-repeat: no-repeat
+}
+.bee-row-1 .bee-row-content,
+.bee-row-6 .bee-row-content {
+background-color: #f2f2f2;
+background-repeat: no-repeat;
+color: #000000
+}
+.bee-row-7,
+.bee-row-7 .bee-row-content {
+background-color: #ffffff;
+background-repeat: no-repeat
+}
+.bee-row-1 .bee-col-1,
+.bee-row-6 .bee-col-1 {
+padding-left: 15px;
+padding-right: 15px;
+padding-top: 5px
+}
+.bee-row-1 .bee-col-1 .bee-block-1 {
+padding-left: 10px;
+padding-top: 10px;
+width: 100%
+}
+.bee-row-1 .bee-col-2,
+.bee-row-6 .bee-col-2,
+.bee-row-7 .bee-col-1 {
+padding-bottom: 5px;
+padding-top: 5px
+}
+.bee-row-1 .bee-col-2 .bee-block-1,
+.bee-row-2 .bee-col-1 .bee-block-1,
+.bee-row-3 .bee-col-1 .bee-block-1,
+.bee-row-4 .bee-col-1 .bee-block-1,
+.bee-row-5 .bee-col-1 .bee-block-1 {
+padding: 10px;
+text-align: center;
+width: 100%
+}
+.bee-row-2,
+.bee-row-3,
+.bee-row-4,
+.bee-row-5 {
+background-repeat: no-repeat
+}
+.bee-row-2 .bee-row-content,
+.bee-row-3 .bee-row-content,
+.bee-row-4 .bee-row-content,
+.bee-row-5 .bee-row-content {
+background-repeat: no-repeat;
+color: #000000
+}
+.bee-row-2 .bee-col-1,
+.bee-row-3 .bee-col-1,
+.bee-row-4 .bee-col-1,
+.bee-row-5 .bee-col-1 {
+padding: 10px 15px 5px
+}
+.bee-row-2 .bee-col-1 .bee-block-2,
+.bee-row-3 .bee-col-1 .bee-block-3,
+.bee-row-3 .bee-col-1 .bee-block-4,
+.bee-row-4 .bee-col-1 .bee-block-3,
+.bee-row-4 .bee-col-1 .bee-block-4,
+.bee-row-5 .bee-col-1 .bee-block-3,
+.bee-row-5 .bee-col-1 .bee-block-4 {
+padding: 10px
+}
+.bee-row-6 .bee-col-1 .bee-block-1 {
+padding: 30px 10px 10px;
+text-align: center;
+width: 100%
+}
+.bee-row-7 .bee-row-content {
+color: #000000
+}
+.bee-row-7 .bee-col-1 .bee-block-1 {
+color: #1e0e4b;
+font-family: Inter, sans-serif;
+font-size: 15px;
+padding-bottom: 5px;
+padding-top: 5px;
+text-align: center
+}
+.bee-row-1 .bee-col-2 .bee-block-1 h1,
+.bee-row-2 .bee-col-1 .bee-block-2,
+.bee-row-3 .bee-col-1 .bee-block-4,
+.bee-row-4 .bee-col-1 .bee-block-4,
+.bee-row-5 .bee-col-1 .bee-block-4,
+.bee-row-6 .bee-col-1 .bee-block-1 h3 {
+direction: ltr;
+font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+line-height: 120%
+}
+.bee-row-1 .bee-col-2 .bee-block-1 h1 {
+color: #737373;
+font-size: 40px;
+font-weight: 400;
+letter-spacing: normal;
+text-align: right
+}
+.bee-row-2 .bee-col-1 .bee-block-1 h2,
+.bee-row-3 .bee-col-1 .bee-block-1 h2,
+.bee-row-4 .bee-col-1 .bee-block-1 h2,
+.bee-row-5 .bee-col-1 .bee-block-1 h2 {
+color: #0e3d00;
+direction: ltr;
+font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;
+font-size: 35px;
+font-weight: 700;
+letter-spacing: normal;
+line-height: 120%;
+text-align: left
+}
+.bee-row-2 .bee-col-1 .bee-block-2,
+.bee-row-3 .bee-col-1 .bee-block-4,
+.bee-row-4 .bee-col-1 .bee-block-4,
+.bee-row-5 .bee-col-1 .bee-block-4 {
+color: #101112;
+font-size: 18px;
+font-weight: 400;
+letter-spacing: 0;
+text-align: left
+}
+.bee-row-2 .bee-col-1 .bee-block-2 a,
+.bee-row-3 .bee-col-1 .bee-block-4 a,
+.bee-row-4 .bee-col-1 .bee-block-4 a,
+.bee-row-5 .bee-col-1 .bee-block-4 a {
+color: #7747FF
+}
+.bee-row-2 .bee-col-1 .bee-block-2 p:not(:last-child),
+.bee-row-3 .bee-col-1 .bee-block-4 p:not(:last-child),
+.bee-row-4 .bee-col-1 .bee-block-4 p:not(:last-child),
+.bee-row-5 .bee-col-1 .bee-block-4 p:not(:last-child) {
+margin-bottom: 16px
+}
+.bee-row-7 .bee-col-1 .bee-block-1 .bee-icon-image {
+padding: 5px 6px 5px 5px
+}
+.bee-row-7 .bee-col-1 .bee-block-1 .bee-icon:not(.bee-icon-first) .bee-content {
+margin-left: 0
+}
+.bee-row-7 .bee-col-1 .bee-block-1 .bee-icon::not(.bee-icon-last) .bee-content {
+margin-right: 0
+}
+.bee-row-7 .bee-col-1 .bee-block-1 .bee-icon-label a {
+color: #1e0e4b
+}
+.bee-row-6 .bee-col-1 .bee-block-1 h3 {
+color: #a5a5a5;
+font-size: 16px;
+font-weight: 700;
+letter-spacing: normal;
+text-align: left
+}
+</style>
+</head>
+<body>
+<div class="bee-page-container">
+<div class="bee-row bee-row-1">
+<div class="bee-row-content">
+<div class="bee-col bee-col-1 bee-col-w3">
+<div class="bee-block bee-block-1 bee-image"><img alt="" class="bee-autowidth" src="https://0c26875212.imgdist.com/pub/bfra/bpovlfhu/mx6/2cf/k54/logoipsum-345.svg" style="max-width:168px;" /></div>
+</div>
+<div class="bee-col bee-col-2 bee-col-w9">
+<div class="bee-block bee-block-1 bee-heading">
+<h1><span class="tinyMce-placeholder">Inference Benchmark Report</span> </h1>
+</div>
+</div>
+</div>
+</div>
+<div class="bee-row bee-row-2">
+<div class="bee-row-content">
+<div class="bee-col bee-col-1 bee-col-w12">
+<div class="bee-block bee-block-1 bee-heading">
+<h2><span class="tinyMce-placeholder">Summary</span> </h2>
+</div>
+<div class="bee-block bee-block-2 bee-paragraph">
+<p>This should be a sample summary of whole report in 5 lines</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bee-row bee-row-3">
+<div class="bee-row-content">
+<div class="bee-col bee-col-1 bee-col-w12">
+<div class="bee-block bee-block-1 bee-heading">
+<h2><span class="tinyMce-placeholder">Throughput Comparison</span> </h2>
+</div>
+<div class="bee-block bee-block-2 bee-image">
+<div></div>
+</div>
+<div class="bee-block bee-block-3 bee-table">
+<table style="table-layout:fixed;direction:ltr;background-color:transparent;font-family:Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;font-weight:400;color:#101112;text-align:left;letter-spacing:0px;">
+<thead style="background-color:#f2f2f2;color:#101112;font-size:14px;line-height:120%;text-align:center;">
+<tr>
+<th style="font-weight:700;border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">Add header text</th>
+<th style="font-weight:700;border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">​</th>
+<th style="font-weight:700;border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">​</th>
+</tr>
+</thead>
+<tbody style="font-size:16px;line-height:120%;">
+<tr>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">Add text</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+</tr>
+<tr>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+</tr>
+<tr>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bee-block bee-block-4 bee-paragraph">
+<p>This should be a sample summary of throughput</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bee-row bee-row-4">
+<div class="bee-row-content">
+<div class="bee-col bee-col-1 bee-col-w12">
+<div class="bee-block bee-block-1 bee-heading">
+<h2><span class="tinyMce-placeholder">Latency Comparison</span> </h2>
+</div>
+<div class="bee-block bee-block-2 bee-image">
+<div></div>
+</div>
+<div class="bee-block bee-block-3 bee-table">
+<table style="table-layout:fixed;direction:ltr;background-color:transparent;font-family:Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;font-weight:400;color:#101112;text-align:left;letter-spacing:0px;">
+<thead style="background-color:#f2f2f2;color:#101112;font-size:14px;line-height:120%;text-align:center;">
+<tr>
+<th style="font-weight:700;border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">Add header text</th>
+<th style="font-weight:700;border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">​</th>
+<th style="font-weight:700;border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">​</th>
+</tr>
+</thead>
+<tbody style="font-size:16px;line-height:120%;">
+<tr>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">Add text</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+</tr>
+<tr>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+</tr>
+<tr>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bee-block bee-block-4 bee-paragraph">
+<p>This should be a sample summary of latency</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bee-row bee-row-5">
+<div class="bee-row-content">
+<div class="bee-col bee-col-1 bee-col-w12">
+<div class="bee-block bee-block-1 bee-heading">
+<h2><span class="tinyMce-placeholder">Memory Usage Comparison</span> </h2>
+</div>
+<div class="bee-block bee-block-2 bee-image">
+<div></div>
+</div>
+<div class="bee-block bee-block-3 bee-table">
+<table style="table-layout:fixed;direction:ltr;background-color:transparent;font-family:Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;font-weight:400;color:#101112;text-align:left;letter-spacing:0px;">
+<thead style="background-color:#f2f2f2;color:#101112;font-size:14px;line-height:120%;text-align:center;">
+<tr>
+<th style="font-weight:700;border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">Add header text</th>
+<th style="font-weight:700;border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">​</th>
+<th style="font-weight:700;border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">​</th>
+</tr>
+</thead>
+<tbody style="font-size:16px;line-height:120%;">
+<tr>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">Add text</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+</tr>
+<tr>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+</tr>
+<tr>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+<td style="border-top:1px solid #dddddd;border-right:1px solid #dddddd;border-bottom:1px solid #dddddd;border-left:1px solid #dddddd;">&amp;ZeroWidthSpace;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="bee-block bee-block-4 bee-paragraph">
+<p>This should be a sample summary of latency</p>
+</div>
+</div>
+</div>
+</div>
+<div class="bee-row bee-row-6">
+<div class="bee-row-content">
+<div class="bee-col bee-col-1 bee-col-w6">
+<div class="bee-block bee-block-1 bee-heading">
+<h3><span class="tinyMce-placeholder">Report generated by EffiLLM</span> </h3>
+</div>
+</div>
+<div class="bee-col bee-col-2 bee-col-w6"></div>
+</div>
+</div>
+<div class="bee-row bee-row-7">
+<div class="bee-row-content">
+<div class="bee-col bee-col-1 bee-col-w12">
+<div class="bee-block bee-block-1 bee-icons">
+<div class="bee-icon bee-icon-last">
+<div class="bee-content">
+<div class="bee-icon-image"><a href="http://designedwithbeefree.com/" target="_blank" title="Designed with Beefree"><img alt="Beefree Logo" height="32px" src="https://d1oco4z2z1fhwp.cloudfront.net/assets/Beefree-logo.png" width="auto" /></a></div>
+<div class="bee-icon-label bee-icon-label-right"><a href="http://designedwithbeefree.com/" target="_blank" title="Designed with Beefree">Designed with Beefree</a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>''')
+    
     def generate_html_report(self, 
                             title: str = "EffiLLM Benchmark Report",
                             filename: str = None) -> str:
