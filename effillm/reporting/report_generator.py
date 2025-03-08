@@ -744,9 +744,15 @@ def generate_html_table(table_data):
 
 def generate_html_report(results_data, title="EffiLLM Benchmark Report"):
     """Generate complete HTML report from benchmark results"""
-    # Load the HTML template
-    with open("template.html", "r") as f:
-        html_template = f.read()
+    # Load the HTML template from the same directory as this script
+    template_path = os.path.join(os.path.dirname(__file__), "template.html")
+    
+    try:
+        with open(template_path, "r") as f:
+            html_template = f.read()
+    except FileNotFoundError:
+        logger.error(f"Template file not found at {template_path}")
+        raise FileNotFoundError(f"Template file not found at {template_path}. Make sure template.html is in the same directory as report_generator.py")
     
     # Generate sections
     summary = generate_summary_stats(results_data)
