@@ -258,9 +258,17 @@ def generate_latency_charts(results_data):
         all_seqs = sorted(list(all_seqs))
         
         # Create a figure with subplots for each model
-        fig2, axes = plt.subplots(1, len(all_models), figsize=(5*len(all_models), 4), sharey=True)
+        fig2 = plt.figure(figsize=(5*len(all_models), 4))
+        
+        # Fix: Handle single model case differently
         if len(all_models) == 1:
-            axes = [axes]
+            ax = fig2.add_subplot(111)
+            axes = [ax]  # Use list of single axis
+        else:
+            axes = []
+            for i in range(len(all_models)):
+                ax = fig2.add_subplot(1, len(all_models), i+1)
+                axes.append(ax)
         
         for i, model in enumerate(all_models):
             # Create matrix for heatmap
@@ -290,14 +298,18 @@ def generate_latency_charts(results_data):
                         text = axes[i].text(s_idx, b_idx, f"{batch_seq_data[key]:.1f}",
                                           ha="center", va="center", color="black", fontsize=8)
         
-        fig2.colorbar(im, ax=axes.ravel().tolist(), shrink=0.7, label='Latency (ms)')
-        fig2.tight_layout()
-        fig2.subplots_adjust(bottom=0.15, top=0.9)
-        fig2.suptitle('Latency Heatmap by Batch Size and Sequence Length', fontsize=16)
+        # Add colorbar - fix for both single and multiple axes cases
+        fig2.colorbar(im, ax=axes, shrink=0.7, label='Latency (ms)')
         
-        # Add common labels
-        fig2.text(0.5, 0.01, 'Sequence Length', ha='center', fontsize=12)
-        fig2.text(0.01, 0.5, 'Batch Size', va='center', rotation='vertical', fontsize=12)
+        plt.suptitle('Latency Heatmap by Batch Size and Sequence Length', fontsize=16)
+        
+        # Add common labels as text - safer than fig.text
+        for ax in axes:
+            ax.set_xlabel('Sequence Length')
+            ax.set_ylabel('Batch Size')
+        
+        # Use subplots_adjust instead of tight_layout
+        plt.subplots_adjust(wspace=0.3, hspace=0.3, bottom=0.15, top=0.85)
         
         charts.append(fig_to_base64(fig2))
     else:
