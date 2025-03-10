@@ -982,103 +982,101 @@ def generate_html_report(results_data, title="EffiLLM Benchmark Report"):
         </div>
         """
         
+        # Replace summary
         html = html.replace('<p>This should be a sample summary of whole report in 5 lines</p>', enhanced_summary)
         
-        # Throughput section
-        throughput_charts_html = ""
-        for chart in throughput["charts"]:
-            throughput_charts_html += f'<div class="bee-block bee-block-2 bee-image"><img src="{chart}" style="width:100%;"/></div>'
+        # THROUGHPUT SECTION
+        # Find the throughput section
+        throughput_section_idx = html.find('<span class="tinyMce-placeholder">Throughput Comparison</span>')
+        if throughput_section_idx > -1:
+            # Look for image div in this section
+            image_div_start = html.find('<div class="bee-block bee-block-2 bee-image">', throughput_section_idx)
+            if image_div_start > -1:
+                image_div_end = html.find('</div>', image_div_start) + 6
+                
+                # Create throughput charts HTML
+                throughput_charts_html = '<div class="bee-block bee-block-2 bee-image">'
+                for chart in throughput["charts"]:
+                    throughput_charts_html += f'<img src="{chart}" style="width:100%;margin-bottom:20px;"/>'
+                throughput_charts_html += '</div>'
+                
+                # Replace the div
+                html = html[:image_div_start] + throughput_charts_html + html[image_div_end:]
+            
+            # Replace throughput table
+            table_start = html.find('<div class="bee-block bee-block-3 bee-table">', throughput_section_idx)
+            if table_start > -1:
+                table_end = html.find('</div>', table_start) + 6
+                table_html = f'<div class="bee-block bee-block-3 bee-table">{generate_html_table(throughput["table"])}</div>'
+                html = html[:table_start] + table_html + html[table_end:]
+            
+            # Replace throughput summary
+            summary_start = html.find('<p>This should be a sample summary of throughput</p>', throughput_section_idx)
+            if summary_start > -1:
+                summary_end = summary_start + len('<p>This should be a sample summary of throughput</p>')
+                html = html[:summary_start] + throughput["summary"] + html[summary_end:]
         
-        chart_placeholder = '<div class="bee-block bee-block-2 bee-image"><div></div></div>'
-        if chart_placeholder in html:
-            html = html.replace(chart_placeholder, throughput_charts_html, 1)
-        else:
-            logger.warning("Could not find chart placeholder for throughput charts")
+        # LATENCY SECTION
+        # Find the latency section
+        latency_section_idx = html.find('<span class="tinyMce-placeholder">Latency Comparison</span>')
+        if latency_section_idx > -1:
+            # Look for image div in this section
+            image_div_start = html.find('<div class="bee-block bee-block-2 bee-image">', latency_section_idx)
+            if image_div_start > -1:
+                image_div_end = html.find('</div>', image_div_start) + 6
+                
+                # Create latency charts HTML
+                latency_charts_html = '<div class="bee-block bee-block-2 bee-image">'
+                for chart in latency["charts"]:
+                    latency_charts_html += f'<img src="{chart}" style="width:100%;margin-bottom:20px;"/>'
+                latency_charts_html += '</div>'
+                
+                # Replace the div
+                html = html[:image_div_start] + latency_charts_html + html[image_div_end:]
+            
+            # Replace latency table
+            table_start = html.find('<div class="bee-block bee-block-3 bee-table">', latency_section_idx)
+            if table_start > -1:
+                table_end = html.find('</div>', table_start) + 6
+                table_html = f'<div class="bee-block bee-block-3 bee-table">{generate_html_table(latency["table"])}</div>'
+                html = html[:table_start] + table_html + html[table_end:]
+            
+            # Replace latency summary
+            summary_start = html.find('<p>This should be a sample summary of latency</p>', latency_section_idx)
+            if summary_start > -1:
+                summary_end = summary_start + len('<p>This should be a sample summary of latency</p>')
+                html = html[:summary_start] + latency["summary"] + html[summary_end:]
         
-        # Find and replace the throughput table
-        table_placeholder = '<table style="table-layout:fixed;direction:ltr;background-color:transparent;font-family:Open Sans, Helvetica Neue, Helvetica, Arial, sans-serif;font-weight:400;color:#101112;text-align:left;letter-spacing:0px;">'
-        if table_placeholder in html:
-            table_start = html.find(table_placeholder)
-            table_end = html.find('</table>', table_start) + 8
-            html = html[:table_start] + generate_html_table(throughput["table"]) + html[table_end:]
-        else:
-            logger.warning("Could not find table placeholder for throughput")
-        
-        # Replace throughput summary
-        summary_placeholder = '<p>This should be a sample summary of throughput</p>'
-        if summary_placeholder in html:
-            html = html.replace(summary_placeholder, throughput["summary"])
-        else:
-            logger.warning("Could not find summary placeholder for throughput")
-        
-        # Latency section
-        latency_charts_html = ""
-        for chart in latency["charts"]:
-            latency_charts_html += f'<div class="bee-block bee-block-2 bee-image"><img src="{chart}" style="width:100%;"/></div>'
-        
-        # Find the next occurrence of the placeholder after "Latency Comparison"
-        latency_start = html.find("Latency Comparison")
-        if latency_start != -1:
-            placeholder_start = html.find(chart_placeholder, latency_start)
-            if placeholder_start != -1:
-                placeholder_end = placeholder_start + len(chart_placeholder)
-                html = html[:placeholder_start] + latency_charts_html + html[placeholder_end:]
-            else:
-                logger.warning("Could not find chart placeholder for latency charts")
-        else:
-            logger.warning("Could not locate 'Latency Comparison' section")
-        
-        # Replace latency table
-        if latency_start != -1 and table_placeholder in html[latency_start:]:
-            table_start = html.find(table_placeholder, latency_start)
-            table_end = html.find('</table>', table_start) + 8
-            html = html[:table_start] + generate_html_table(latency["table"]) + html[table_end:]
-        else:
-            logger.warning("Could not find table placeholder for latency")
-        
-        # Replace latency summary
-        latency_summary_placeholder = '<p>This should be a sample summary of latency</p>'
-        if latency_summary_placeholder in html:
-            html = html.replace(latency_summary_placeholder, latency["summary"])
-        else:
-            logger.warning("Could not find summary placeholder for latency")
-        
-        # Memory section
-        memory_charts_html = ""
-        for chart in memory["charts"]:
-            memory_charts_html += f'<div class="bee-block bee-block-2 bee-image"><img src="{chart}" style="width:100%;"/></div>'
-        
-        # Find the next occurrence after "Memory Usage Comparison"
-        memory_start = html.find("Memory Usage Comparison")
-        if memory_start != -1:
-            placeholder_start = html.find(chart_placeholder, memory_start)
-            if placeholder_start != -1:
-                placeholder_end = placeholder_start + len(chart_placeholder)
-                html = html[:placeholder_start] + memory_charts_html + html[placeholder_end:]
-            else:
-                logger.warning("Could not find chart placeholder for memory charts")
-        else:
-            logger.warning("Could not locate 'Memory Usage Comparison' section")
-        
-        # Replace memory table
-        if memory_start != -1 and table_placeholder in html[memory_start:]:
-            table_start = html.find(table_placeholder, memory_start)
-            table_end = html.find('</table>', table_start) + 8
-            html = html[:table_start] + generate_html_table(memory["table"]) + html[table_end:]
-        else:
-            logger.warning("Could not find table placeholder for memory")
-        
-        # Find the summary placeholder after memory section
-        memory_summary_placeholder = '<p>This should be a sample summary of latency</p>'
-        if memory_start != -1 and memory_summary_placeholder in html[memory_start:]:
-            summary_pos = html.find(memory_summary_placeholder, memory_start)
-            if summary_pos != -1:
-                summary_end = summary_pos + len(memory_summary_placeholder)
-                html = html[:summary_pos] + memory["summary"] + html[summary_end:]
-            else:
-                logger.warning("Could not find summary placeholder for memory")
-        else:
-            logger.warning("Could not find memory summary placeholder")
+        # MEMORY SECTION
+        # Find the memory section
+        memory_section_idx = html.find('<span class="tinyMce-placeholder">Memory Usage Comparison</span>')
+        if memory_section_idx > -1:
+            # Look for image div in this section
+            image_div_start = html.find('<div class="bee-block bee-block-2 bee-image">', memory_section_idx)
+            if image_div_start > -1:
+                image_div_end = html.find('</div>', image_div_start) + 6
+                
+                # Create memory charts HTML
+                memory_charts_html = '<div class="bee-block bee-block-2 bee-image">'
+                for chart in memory["charts"]:
+                    memory_charts_html += f'<img src="{chart}" style="width:100%;margin-bottom:20px;"/>'
+                memory_charts_html += '</div>'
+                
+                # Replace the div
+                html = html[:image_div_start] + memory_charts_html + html[image_div_end:]
+            
+            # Replace memory table
+            table_start = html.find('<div class="bee-block bee-block-3 bee-table">', memory_section_idx)
+            if table_start > -1:
+                table_end = html.find('</div>', table_start) + 6
+                table_html = f'<div class="bee-block bee-block-3 bee-table">{generate_html_table(memory["table"])}</div>'
+                html = html[:table_start] + table_html + html[table_end:]
+            
+            # Fix the memory summary text (currently has "latency" text which is incorrect)
+            summary_start = html.find('<p>This should be a sample summary of latency</p>', memory_section_idx)
+            if summary_start > -1:
+                summary_end = summary_start + len('<p>This should be a sample summary of latency</p>')
+                html = html[:summary_start] + memory["summary"] + html[summary_end:]
         
         # Update logo and footer
         html = html.replace(
@@ -1094,8 +1092,10 @@ def generate_html_report(results_data, title="EffiLLM Benchmark Report"):
         )
         
         # Remove Beefree logo
-        beefree_logo = '<div class="bee-block bee-block-1 bee-icons">\n<div class="bee-icon bee-icon-last">\n<div class="bee-content">\n<div class="bee-icon-image"><a href="http://designedwithbeefree.com/" target="_blank" title="Designed with Beefree"><img alt="Beefree Logo" height="32px" src="https://d1oco4z2z1fhwp.cloudfront.net/assets/Beefree-logo.png" width="auto" /></a></div>\n<div class="bee-icon-label bee-icon-label-right"><a href="http://designedwithbeefree.com/" target="_blank" title="Designed with Beefree">Designed with Beefree</a></div>\n</div>\n</div>\n</div>'
-        html = html.replace(beefree_logo, '')
+        beefree_section_start = html.find('<div class="bee-row bee-row-7">')
+        beefree_section_end = html.find('</div></div></div>', beefree_section_start) + 14
+        if beefree_section_start > -1:
+            html = html[:beefree_section_start] + html[beefree_section_end:]
         
         return html
     except Exception as e:
