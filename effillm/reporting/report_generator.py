@@ -1109,7 +1109,7 @@ def generate_html_report(results_data, title="EffiLLM Benchmark Report"):
         # Update logo and footer
         html = html.replace(
             '<img alt="" class="bee-autowidth" src="https://0c26875212.imgdist.com/pub/bfra/bpovlfhu/mx6/2cf/k54/logoipsum-345.svg" style="max-width:168px;" />', 
-            '<h3 style="color:#737373;">EffiLLM</h3>'
+            '<img alt="" class="bee-autowidth" src="https://0c26875212.imgdist.com/pub/bfra/bpovlfhu/mx6/2cf/k54/logoipsum-345.svg" style="max-width:168px;" />'
         )
         
         # Add timestamp to footer
